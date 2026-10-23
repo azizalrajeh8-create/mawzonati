@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="حاسبة النسبة الموزونة للقبول الجامعي في السعودية. احسب نسبتك وجرّب أوزان الجامعات المختلفة بسهولة.">
+<title>موزونتي | حاسبة القبول الجامعي</title>
+<style>
+:root{--bg:#f5f7fb;--card:#fff;--ink:#182230;--muted:#667085;--line:#e4e7ec;--brand:#3b5ccc;--brand2:#263f9e;--good:#087443}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Tahoma,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.7}
+header{background:linear-gradient(135deg,#1c2c68,#4866d8);color:white;padding:34px 18px 42px;text-align:center}
+header .tag{display:inline-block;border:1px solid #ffffff65;border-radius:99px;padding:3px 12px;font-size:13px;margin-bottom:8px}
+h1{font-size:clamp(28px,5vw,42px);margin:4px 0}header p{margin:6px auto 0;max-width:650px;color:#eef1ff}
+main{max-width:980px;margin:-22px auto 40px;padding:0 14px}.panel{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:22px;margin-bottom:16px;box-shadow:0 10px 30px #1b2b5510}
+h2{font-size:20px;margin:0 0 14px}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+label{display:block;font-weight:650;font-size:14px;margin-bottom:6px}
+input,select{width:100%;border:1px solid #cfd5e2;border-radius:12px;padding:12px;font:inherit;background:#fff;color:var(--ink);outline:none}
+input:focus,select:focus{border-color:var(--brand);box-shadow:0 0 0 3px #3b5ccc20}
+.help{font-size:12px;color:var(--muted);margin-top:5px}
+.weights{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.weight{background:#f8f9fd;border:1px solid var(--line);border-radius:14px;padding:13px}
+.weight input{font-size:18px;font-weight:700}
+.total{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-top:14px;padding:12px 14px;border-radius:12px;background:#f0f4ff}
+.total strong{color:var(--brand2)}.result{background:#f0fbf5;border:1px solid #c6eed8;border-radius:16px;padding:20px;text-align:center}
+.result .big{font-size:clamp(38px,8vw,56px);font-weight:800;color:var(--good);line-height:1.25;font-variant-numeric:tabular-nums}
+.result p{margin:5px 0;color:#35664e}.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+button{border:0;border-radius:12px;padding:12px 16px;font:inherit;font-weight:700;cursor:pointer}
+.primary{background:var(--brand);color:white}.secondary{background:#edf0f7;color:#283247}
+.note{font-size:13px;color:var(--muted)}.bar{height:10px;background:#e5e9f4;border-radius:99px;overflow:hidden;margin-top:12px}.bar span{display:block;height:100%;width:0;background:linear-gradient(90deg,#4b68d9,#24a36b);transition:width .2s}
+footer{text-align:center;color:var(--muted);font-size:12px;padding:0 18px 30px}
+@media(max-width:650px){.grid,.weights{grid-template-columns:1fr}.panel{padding:17px}.total{align-items:flex-start;flex-direction:column}}
+@media print{header{padding:18px}.panel{box-shadow:none;break-inside:avoid}button,.actions{display:none}body{background:#fff}main{margin:0 auto}}
+</style>
+</head>
+<body>
+<header>
+  <span class="tag">أداة مجانية للطلاب والطالبات</span>
+  <h1>موزونتي</h1>
+  <p>احسب نسبتك الموزونة للقبول الجامعي وجرّب أوزان الثانوية والقدرات والتحصيلي بنفسك.</p>
+</header>
+<main>
+  <section class="panel">
+    <h2>١. أدخل درجاتك</h2>
+    <div class="grid">
+      <div><label for="school">نسبة الثانوية العامة</label><input id="school" type="number" min="0" max="100" step="0.01" value="98" inputmode="decimal"><div class="help">من 0 إلى 100</div></div>
+      <div><label for="qiyas">درجة القدرات</label><input id="qiyas" type="number" min="0" max="100" step="0.01" value="85" inputmode="decimal"><div class="help">من 0 إلى 100</div></div>
+      <div><label for="tahsili">درجة التحصيلي</label><input id="tahsili" type="number" min="0" max="100" step="0.01" value="90" inputmode="decimal"><div class="help">من 0 إلى 100</div></div>
+    </div>
+  </section>
+  <section class="panel">
+    <h2>٢. اختر أوزان الجامعة</h2>
+    <label for="preset">أمثلة جاهزة للأوزان</label>
+    <select id="preset">
+      <option value="30,30,40">ثانوية 30% — قدرات 30% — تحصيلي 40%</option>
+      <option value="40,30,30">ثانوية 40% — قدرات 30% — تحصيلي 30%</option>
+      <option value="50,30,20">ثانوية 50% — قدرات 30% — تحصيلي 20%</option>
+      <option value="custom">أدخل أوزانًا مخصصة</option>
+    </select>
+    <div class="weights" style="margin-top:14px">
+      <div class="weight"><label for="ws">وزن الثانوية (%)</label><input id="ws" type="number" min="0" max="100" step="1" value="30" inputmode="numeric"></div>
+      <div class="weight"><label for="wq">وزن القدرات (%)</label><input id="wq" type="number" min="0" max="100" step="1" value="30" inputmode="numeric"></div>
+      <div class="weight"><label for="wt">وزن التحصيلي (%)</label><input id="wt" type="number" min="0" max="100" step="1" value="40" inputmode="numeric"></div>
+    </div>
+    <div class="total"><span>مجموع الأوزان</span><strong id="weightTotal">100%</strong></div>
+    <p class="note">الأوزان تختلف حسب الجامعة والتخصص وسنة القبول. الخيارات هنا أمثلة للحساب وليست تأكيدًا لمتطلبات جامعة محددة.</p>
+  </section>
+  <section class="panel">
+    <h2>نتيجتك</h2>
+    <div class="result" aria-live="polite">
+      <div class="big" id="result">90.90%</div>
+      <p id="resultText">نسبتك الموزونة حسب الأوزان المختارة</p>
+      <div class="bar"><span id="bar"></span></div>
+    </div>
+    <div class="actions">
+      <button class="primary" id="reset">إعادة الدرجات الافتراضية</button>
+      <button class="secondary" id="print">طباعة / حفظ PDF</button>
+      <button class="secondary" id="copy">نسخ النتيجة</button>
+    </div>
+    <p class="note" id="status" role="status">غيّر أي درجة أو وزن لتحديث النتيجة مباشرة.</p>
+  </section>
+  <section class="panel">
+    <h2>كيف تُحسب النسبة؟</h2>
+    <p>النسبة الموزونة = (الثانوية × وزنها) + (القدرات × وزنها) + (التحصيلي × وزنه)، بعد تحويل كل وزن إلى نسبة عشرية.</p>
+    <p class="note">مثال: 98 × 30% + 85 × 30% + 90 × 40% = 90.9%. الحاسبة لا تضمن القبول؛ المفاضلة تعتمد على شروط الجامعة والتخصص والمقاعد المتاحة.</p>
+  </section>
+</main>
+<footer>موزونتي — حاسبة مستقلة للتقدير والحساب، وليست تابعة لأي جامعة أو جهة قبول.</footer>
+<script>
+const ids=['school','qiyas','tahsili','ws','wq','wt'];
+const el=id=>document.getElementById(id);
+function num(id){return Number(el(id).value)}
+function validScore(id){const x=num(id);return el(id).value.trim()!==''&&Number.isFinite(x)&&x>=0&&x<=100}
+function calc(){
+  const scores=['school','qiyas','tahsili'];
+  const weights=['ws','wq','wt'];
+  const sum=weights.reduce((a,id)=>a+num(id),0);
+  el('weightTotal').textContent=(Number.isFinite(sum)?sum:0)+'%';
+  el('weightTotal').style.color=Math.abs(sum-100)<0.0001?'#087443':'#b42318';
+  if(!scores.every(validScore)||!weights.every(validScore)||Math.abs(sum-100)>0.0001||sum===0){
+    el('result').textContent='—';
+    el('resultText').textContent='تأكد أن الدرجات من 0 إلى 100 وأن مجموع الأوزان يساوي 100%.';
+    el('bar').style.width='0%';
+    el('status').textContent='لا يمكن حساب النتيجة حتى تصحيح الدرجات والأوزان.';
+    return null;
+  }
+  const result=num('school')*num('ws')/100+num('qiyas')*num('wq')/100+num('tahsili')*num('wt')/100;
+  const rounded=Math.round((result+Number.EPSILON)*100)/100;
+  el('result').textContent=rounded.toFixed(2)+'%';
+  el('resultText').textContent='نسبتك الموزونة حسب الأوزان المختارة';
+  el('bar').style.width=Math.max(0,Math.min(100,rounded))+'%';
+  el('status').textContent='تم تحديث النتيجة مباشرة.';
+  return rounded;
+}
+ids.forEach(id=>el(id).addEventListener('input',()=>{el('preset').value='custom';calc()}));
+el('preset').addEventListener('change',()=>{
+ const v=el('preset').value;
+ if(v==='custom')return;
+ const a=v.split(',');['ws','wq','wt'].forEach((id,i)=>el(id).value=a[i]);calc();
+});
+el('reset').addEventListener('click',()=>{
+ el('school').value=98;el('qiyas').value=85;el('tahsili').value=90;
+ el('preset').value='30,30,40';el('ws').value=30;el('wq').value=30;el('wt').value=40;calc();
+});
+el('print').addEventListener('click',()=>window.print());
+el('copy').addEventListener('click',async()=>{
+ const r=calc();if(r===null)return;
+ const t=`نتيجتي في حاسبة موزونتي: ${r.toFixed(2)}%\nالثانوية: ${num('school')} (وزن ${num('ws')}%)\nالقدرات: ${num('qiyas')} (وزن ${num('wq')}%)\nالتحصيلي: ${num('tahsili')} (وزن ${num('wt')}%)`;
+ try{await navigator.clipboard.writeText(t);el('status').textContent='تم نسخ ملخص النتيجة.'}
+ catch(e){el('status').textContent=t}
+});
+calc();
+</script>
+</body>
+</html>
